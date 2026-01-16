@@ -9,3 +9,11 @@ class DataIngestionConfig:
     source_URL: str
     local_data_file: Path
     unzip_dir: Path
+
+#Configuration class for Data Validation component
+@dataclass(frozen=True)
+class DataValidationConfig:
+    root_dir: Path
+    unzip_data_dir: Path
+    status_file: str
+    all_schema: dict  #Schema for data validation (schema.yaml) -> Need to read the schema file

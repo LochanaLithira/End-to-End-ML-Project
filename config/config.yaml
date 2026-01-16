@@ -6,3 +6,9 @@ data_ingestion:
   source_URL: https://github.com/LochanaLithira/ML_datasets/raw/refs/heads/main/wine_quality_dataset.zip
   local_data_file: artifacts/data_ingestion/dataset.zip
   unzip_dir: artifacts/data_ingestion
+
+#Data validation configuration
+data_validation:
+  root_dir: artifacts/data_validation
+  unzip_data_dir: artifacts/data_ingestion/WineQT.csv
+  status_file: artifacts/data_validation/status.txt
