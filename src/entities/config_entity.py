@@ -17,3 +17,9 @@ class DataValidationConfig:
     unzip_data_dir: Path
     status_file: str
     all_schema: dict  #Schema for data validation (schema.yaml) -> Need to read the schema file
+
+#Configuration class for Data Transformation component
+@dataclass(frozen = True)
+class DataTransformationConfig:
+    root_dir: Path
+    data_path: Path   

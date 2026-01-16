@@ -1,7 +1,7 @@
 #Import necessary modules
 from src.utils.common import read_yaml, create_directories
 from src.constants import *
-from src.entities.config_entity import DataIngestionConfig, DataValidationConfig
+from src.entities.config_entity import DataIngestionConfig, DataValidationConfig, DataTransformationConfig
 
 #Configuration Manager class to handle configurations
 class ConfigurationManager:
@@ -34,7 +34,7 @@ class ConfigurationManager:
         )
         return data_ingestion_congfig
     
-        #Method to get Data Validation configuration
+    #Method to get Data Validation configuration
     def get_data_validation_config(self) -> DataValidationConfig:
         config = self.config.data_validation
         schema = self.schema.COLUMNS
@@ -48,3 +48,15 @@ class ConfigurationManager:
             all_schema = schema
         )
         return data_validation_config
+    
+    #Method to get Data Transformation configuration
+    def get_data_transformation_config(self) -> DataTransformationConfig:
+        config = self.config.data_transformation
+
+        create_directories([config.root_dir])
+
+        data_transformation_config = DataTransformationConfig(
+            root_dir = config.root_dir,
+            data_path = config.data_path
+        )
+        return data_transformation_config
