@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wine Quality Prediction</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        header {
+            text-align: center;
+            padding: 40px 0;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .logo i {
+            font-size: 3rem;
+            color: #e94560;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #e94560, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            color: #a0a0a0;
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Info Section */
+        .info-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .info-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #e94560;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-section p {
+            color: #c0c0c0;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .features-list {
+            list-style: none;
+        }
+
+        .features-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #d0d0d0;
+        }
+
+        .features-list li:last-child {
+            border-bottom: none;
+        }
+
+        .features-list li i {
+            color: #e94560;
+            font-size: 1.2rem;
+            width: 25px;
+        }
+
+        /* Form Section */
+        .form-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            color: #e94560;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: #a0a0a0;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #e94560;
+            background: rgba(233, 69, 96, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #606060;
+        }
+
+        .form-group .hint {
+            font-size: 0.75rem;
+            color: #707070;
+            margin-top: 5px;
+        }
+
+        .submit-btn {
+            grid-column: 1 / -1;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #e94560, #ff6b6b);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: 'Poppins', sans-serif;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Quality Scale */
+        .quality-scale {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(233, 69, 96, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(233, 69, 96, 0.2);
+        }
+
+        .quality-scale h3 {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            color: #e94560;
+        }
+
+        .scale-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            padding: 10px 0;
+        }
+
+        .scale-bar::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            height: 6px;
+            background: linear-gradient(90deg, #ff6b6b, #ffd93d, #6bcb77);
+            border-radius: 3px;
+            z-index: 0;
+        }
+
+        .scale-point {
+            width: 30px;
+            height: 30px;
+            background: #1a1a2e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 1;
+            border: 2px solid #e94560;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            color: #707070;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: #e94560;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .info-section, .form-section {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .form-section {
+            animation-delay: 0.2s;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-wine-glass-alt"></i>
+                <h1>Wine Quality Prediction</h1>
+            </div>
+            <p>Predict the quality of wine using Machine Learning</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <!-- Info Section -->
+            <div class="info-section">
+                <h2><i class="fas fa-info-circle"></i> About This Project</h2>
+                <p>
+                    This application uses advanced Machine Learning algorithms to predict 
+                    the quality of wine based on its physicochemical properties. Simply enter 
+                    the wine's characteristics and get an instant quality prediction!
+                </p>
+                
+                <h2 style="margin-top: 30px;"><i class="fas fa-flask"></i> Input Features</h2>
+                <ul class="features-list">
+                    <li><i class="fas fa-tint"></i> Fixed Acidity - Primary acids in wine</li>
+                    <li><i class="fas fa-wind"></i> Volatile Acidity - Acetic acid content</li>
+                    <li><i class="fas fa-lemon"></i> Citric Acid - Freshness enhancer</li>
+                    <li><i class="fas fa-cube"></i> Residual Sugar - Remaining sugar after fermentation</li>
+                    <li><i class="fas fa-atom"></i> Chlorides - Salt content</li>
+                    <li><i class="fas fa-cloud"></i> Free Sulfur Dioxide - SO₂ preservative (free form)</li>
+                    <li><i class="fas fa-smog"></i> Total Sulfur Dioxide - Total SO₂ content</li>
+                    <li><i class="fas fa-weight-hanging"></i> Density - Wine density</li>
+                    <li><i class="fas fa-balance-scale"></i> pH - Acidity level</li>
+                    <li><i class="fas fa-prescription-bottle"></i> Sulphates - Wine additives</li>
+                    <li><i class="fas fa-percentage"></i> Alcohol - Alcohol percentage</li>
+                </ul>
+
+                <div class="quality-scale">
+                    <h3><i class="fas fa-star"></i> Quality Scale (3-8)</h3>
+                    <div class="scale-bar">
+                        <span class="scale-point">3</span>
+                        <span class="scale-point">4</span>
+                        <span class="scale-point">5</span>
+                        <span class="scale-point">6</span>
+                        <span class="scale-point">7</span>
+                        <span class="scale-point">8</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Section -->
+            <div class="form-section">
+                <h2><i class="fas fa-edit"></i> Enter Wine Properties</h2>
+                <form action="/predict" method="POST">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="fixed_acidity">Fixed Acidity</label>
+                            <input type="number" step="0.01" name="fixed_acidity" id="fixed_acidity" 
+                                   placeholder="e.g., 7.4" required>
+                            <span class="hint">Typical range: 4.6 - 15.9</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="volatile_acidity">Volatile Acidity</label>
+                            <input type="number" step="0.001" name="volatile_acidity" id="volatile_acidity" 
+                                   placeholder="e.g., 0.70" required>
+                            <span class="hint">Typical range: 0.12 - 1.58</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="citric_acid">Citric Acid</label>
+                            <input type="number" step="0.01" name="citric_acid" id="citric_acid" 
+                                   placeholder="e.g., 0.00" required>
+                            <span class="hint">Typical range: 0 - 1</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="residual_sugar">Residual Sugar</label>
+                            <input type="number" step="0.01" name="residual_sugar" id="residual_sugar" 
+                                   placeholder="e.g., 1.9" required>
+                            <span class="hint">Typical range: 0.9 - 15.5</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="chlorides">Chlorides</label>
+                            <input type="number" step="0.001" name="chlorides" id="chlorides" 
+                                   placeholder="e.g., 0.076" required>
+                            <span class="hint">Typical range: 0.012 - 0.611</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="free_sulfur_dioxide">Free Sulfur Dioxide</label>
+                            <input type="number" step="0.1" name="free_sulfur_dioxide" id="free_sulfur_dioxide" 
+                                   placeholder="e.g., 11.0" required>
+                            <span class="hint">Typical range: 1 - 72</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="total_sulfur_dioxide">Total Sulfur Dioxide</label>
+                            <input type="number" step="0.1" name="total_sulfur_dioxide" id="total_sulfur_dioxide" 
+                                   placeholder="e.g., 34.0" required>
+                            <span class="hint">Typical range: 6 - 289</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="density">Density</label>
+                            <input type="number" step="0.0001" name="density" id="density" 
+                                   placeholder="e.g., 0.9978" required>
+                            <span class="hint">Typical range: 0.990 - 1.004</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pH">pH</label>
+                            <input type="number" step="0.01" name="pH" id="pH" 
+                                   placeholder="e.g., 3.51" required>
+                            <span class="hint">Typical range: 2.74 - 4.01</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sulphates">Sulphates</label>
+                            <input type="number" step="0.01" name="sulphates" id="sulphates" 
+                                   placeholder="e.g., 0.56" required>
+                            <span class="hint">Typical range: 0.33 - 2.0</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="alcohol">Alcohol (%)</label>
+                            <input type="number" step="0.1" name="alcohol" id="alcohol" 
+                                   placeholder="e.g., 9.4" required>
+                            <span class="hint">Typical range: 8.4 - 14.9</span>
+                        </div>
+
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-magic"></i> Predict Quality
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Built with <i class="fas fa-heart" style="color: #e94560;"></i> using Flask & Machine Learning</p>
+        <p style="margin-top: 10px;">© 2026 Wine Quality Prediction | End-to-End ML Project</p>
+    </footer>
+</body>
+</html>

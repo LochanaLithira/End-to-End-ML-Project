@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result - Wine Quality</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Header Styles */
+        header {
+            text-align: center;
+            padding: 40px 0;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .logo i {
+            font-size: 3rem;
+            color: #e94560;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #e94560, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            color: #a0a0a0;
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+
+        /* Result Card */
+        .result-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 25px;
+            padding: 50px 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            animation: fadeInUp 0.8s ease-out forwards;
+            margin: 40px 0;
+        }
+
+        .result-icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #e94560, #ff6b6b);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            box-shadow: 0 15px 40px rgba(233, 69, 96, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        .result-icon i {
+            font-size: 3.5rem;
+            color: #fff;
+        }
+
+        .result-label {
+            font-size: 1.3rem;
+            color: #a0a0a0;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .result-value {
+            font-size: 5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #e94560, #ff6b6b, #ffd93d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .result-description {
+            font-size: 1.2rem;
+            color: #c0c0c0;
+            max-width: 500px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        /* Quality Indicator */
+        .quality-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 30px 0;
+        }
+
+        .quality-bar {
+            width: 50px;
+            height: 10px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .quality-bar.active {
+            background: linear-gradient(90deg, #e94560, #ff6b6b);
+            box-shadow: 0 0 15px rgba(233, 69, 96, 0.5);
+        }
+
+        .quality-bar.good {
+            background: linear-gradient(90deg, #6bcb77, #4ade80);
+            box-shadow: 0 0 15px rgba(107, 203, 119, 0.5);
+        }
+
+        .quality-bar.excellent {
+            background: linear-gradient(90deg, #ffd93d, #fbbf24);
+            box-shadow: 0 0 15px rgba(255, 217, 61, 0.5);
+        }
+
+        /* Quality Labels */
+        .quality-labels {
+            display: flex;
+            justify-content: space-between;
+            max-width: 400px;
+            margin: 10px auto 0;
+            padding: 0 10px;
+        }
+
+        .quality-labels span {
+            font-size: 0.85rem;
+            color: #707070;
+        }
+
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 16px 36px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Poppins', sans-serif;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #e94560, #ff6b6b);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        /* Info Cards */
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 600px) {
+            .info-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .info-card i {
+            font-size: 2rem;
+            color: #e94560;
+            margin-bottom: 10px;
+        }
+
+        .info-card h4 {
+            font-size: 0.9rem;
+            color: #a0a0a0;
+            margin-bottom: 5px;
+        }
+
+        .info-card p {
+            font-size: 1.1rem;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #707070;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: #e94560;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* Confetti animation for high quality */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #e94560;
+            animation: confetti-fall 3s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                opacity: 1;
+                transform: translateY(-100vh) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(720deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-wine-glass-alt"></i>
+                <h1>Wine Quality Prediction</h1>
+            </div>
+            <p>Your wine quality analysis is ready!</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="result-card">
+            <div class="result-icon">
+                <i class="fas fa-star"></i>
+            </div>
+            
+            <p class="result-label">Predicted Quality Score</p>
+            <h2 class="result-value">{{ prediction }}</h2>
+            
+            <p class="result-description">
+                Based on the physicochemical properties you provided, our Machine Learning model 
+                has analyzed and predicted the quality of your wine.
+            </p>
+
+            <!-- Quality Visual Indicator -->
+            <div class="quality-indicator" id="qualityIndicator">
+                <div class="quality-bar" data-level="3"></div>
+                <div class="quality-bar" data-level="4"></div>
+                <div class="quality-bar" data-level="5"></div>
+                <div class="quality-bar" data-level="6"></div>
+                <div class="quality-bar" data-level="7"></div>
+                <div class="quality-bar" data-level="8"></div>
+            </div>
+            <div class="quality-labels">
+                <span>Low (3)</span>
+                <span>Medium (5-6)</span>
+                <span>High (8)</span>
+            </div>
+
+            <!-- Info Cards -->
+            <div class="info-cards">
+                <div class="info-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h4>Model</h4>
+                    <p>ElasticNet</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-database"></i>
+                    <h4>Features Used</h4>
+                    <p>11 Properties</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-wine-bottle"></i>
+                    <h4>Scale Range</h4>
+                    <p>3 - 8</p>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="btn-group">
+                <a href="/" class="btn btn-primary">
+                    <i class="fas fa-redo"></i> Predict Another Wine
+                </a>
+                <a href="/" class="btn btn-secondary">
+                    <i class="fas fa-home"></i> Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Built with <i class="fas fa-heart" style="color: #e94560;"></i> using Flask & Machine Learning</p>
+        <p style="margin-top: 10px;">© 2026 Wine Quality Prediction | End-to-End ML Project</p>
+    </footer>
+
+    <script>
+        // Get the prediction value and highlight quality bars
+        document.addEventListener('DOMContentLoaded', function() {
+            const predictionText = '{{ prediction }}';
+            // Extract numeric value from prediction (handles formats like "[5.]" or "5.2")
+            const match = predictionText.match(/[\d.]+/);
+            const prediction = match ? Math.round(parseFloat(match[0])) : 5;
+            
+            const bars = document.querySelectorAll('.quality-bar');
+            
+            bars.forEach(bar => {
+                const level = parseInt(bar.dataset.level);
+                if (level <= prediction) {
+                    if (prediction >= 7) {
+                        bar.classList.add('excellent');
+                    } else if (prediction >= 5) {
+                        bar.classList.add('good');
+                    } else {
+                        bar.classList.add('active');
+                    }
+                }
+            });
+
+            // Add confetti for high quality predictions
+            if (prediction >= 7) {
+                createConfetti();
+            }
+        });
+
+        function createConfetti() {
+            const colors = ['#e94560', '#ff6b6b', '#ffd93d', '#6bcb77', '#4ade80'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 4000);
+                }, i * 50);
+            }
+        }
+    </script>
+</body>
+</html>
