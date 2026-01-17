@@ -35,3 +35,13 @@ class ModelTrainerConfig:
     l1_ratio: float
     random_state: int
     target_column: str
+
+#Configuration class for model evaluation
+@dataclass(frozen = True)
+class ModelEvaluationConfig:
+    root_dir: Path
+    test_data_path: Path
+    model_path: Path
+    metrics_file_path: Path
+    all_params: dict
+    target_column:str
