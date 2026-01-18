@@ -1,16 +1,16 @@
-#Use an official Python runtime as a parent image
+# Use an official Python runtime as a parent image
 FROM python:3.10-slim-bullseye
 
-#Install AWS CLI
+# Install AWS CLI
 RUN apt update -y && apt install awscli -y
 
-#Set the working directory in the container
+# Set the working directory in the container
 WORKDIR /app
 
-#Copy the current directory contents into the container at /app
+# Copy the current directory contents into the container at /app
 COPY . /app
 
-#Install any needed packages specified in requirements.txt
+# Install any needed packages specified in requirements.txt
 RUN pip install -r requirements.txt
 
 
