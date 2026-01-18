@@ -89,9 +89,9 @@ jobs:
         run: |  #Run multiple commands
           docker pull ${{ secrets.AWS_ECR_LOGIN_URI }}/${{secrets.ECR_REPOSITORY_NAME}}:latest  #Pull the Docker image from ECR
 
-      - name: Stop and remove container if running  #Step to stop and remove existing Docker container
-        run: |  #Run multiple commands
-          docker ps -q --filter "name=cnncls" | grep -q . && docker stop cnncls && docker rm -fv cnncls
+    #  - name: Stop and remove container if running  #Step to stop and remove existing Docker container
+    #    run: |  #Run multiple commands
+    #      docker ps -q --filter "name=cnncls" | grep -q . && docker stop cnncls && docker rm -fv cnncls
 
       - name: Run Docker Image to serve users  #Step to run the Docker image
         run: |  #Run multiple commands
