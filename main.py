@@ -56,7 +56,7 @@ try:
     logger.info(f">>>>> Stage {STAGE_NAME} started <<<<<")
     model_evaluation = ModelEvaluationTrainingPipeline()
     model_evaluation.main()
-    logger.info(f">>>>> Stage {STAGE_NAME} completed <<<<<\n")
+    logger.info(f">>>> Stage {STAGE_NAME} completed <<<<\n")
 except Exception as e:
     logger.exception(e)
     raise e
