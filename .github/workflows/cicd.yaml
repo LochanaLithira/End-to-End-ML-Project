@@ -66,7 +66,7 @@ jobs:
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"  #Set output variable for image URI
 
   #Continuous Deployment Job
-  Continuous Deployment:
+  Continuous-Deployment:
     name: Continuous Deployment  #Job name
     needs: build-and-push-ecr-image  #This job depends on the completion of the build-and-push-ecr-image job
     runs-on: self-hosted  #Use the self-hosted runner
