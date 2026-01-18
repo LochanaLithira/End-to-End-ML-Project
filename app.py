@@ -1,6 +1,7 @@
 #Import necessary modules and libraries
 import os 
 import numpy as np
+import pandas as pd
 from flask import Flask, request, render_template
 from src.pipelines.prediction_pipeline import PredictionPipeline
 
@@ -35,11 +36,13 @@ def index():
             sulphates = float(request.form['sulphates'])
             alcohol = float(request.form['alcohol'])
 
-            #Create a list of input features
-            data = [fixed_acidity, volatile_acidity, citric_acid,
+            #Create a DataFrame with input features and column names
+            data = pd.DataFrame([[fixed_acidity, volatile_acidity, citric_acid,
                     residual_sugar, chlorides, free_sulfur_dioxide,
-                    total_sulfur_dioxide, density, pH, sulphates, alcohol]
-            data = np.array(data).reshape(1, 11)  #Reshape data for prediction
+                    total_sulfur_dioxide, density, pH, sulphates, alcohol]],
+                    columns=['fixed acidity', 'volatile acidity', 'citric acid',
+                             'residual sugar', 'chlorides', 'free sulfur dioxide',
+                             'total sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol'])
 
             #Make prediction using the prediction pipeline
             pipeline = PredictionPipeline()
